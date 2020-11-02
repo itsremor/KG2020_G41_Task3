@@ -1,4 +1,4 @@
-package rybas.points;
+package ru.cs.vsu.points;
 
 public class RealPoint {
     private double x, y;

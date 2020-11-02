@@ -1,6 +1,6 @@
-package rybas.linedrawers;
+package ru.cs.vsu.linedrawers;
 
-import rybas.points.ScreenPoint;
+import ru.cs.vsu.points.ScreenPoint;
 
 public interface LineDrawer {
     void drawLine(ScreenPoint p1, ScreenPoint p2);

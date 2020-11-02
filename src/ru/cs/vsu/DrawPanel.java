@@ -1,12 +1,12 @@
-package rybas;
+package ru.cs.vsu;
 
-import rybas.linedrawers.DDALineDrawer;
-import rybas.linedrawers.LineDrawer;
-import rybas.models.Line;
-import rybas.pixeldrawers.BufferedImagePixelDrawer;
-import rybas.pixeldrawers.PixelDrawer;
-import rybas.points.RealPoint;
-import rybas.points.ScreenPoint;
+import ru.cs.vsu.linedrawers.DDALineDrawer;
+import ru.cs.vsu.linedrawers.LineDrawer;
+import ru.cs.vsu.models.Line;
+import ru.cs.vsu.pixeldrawers.BufferedImagePixelDrawer;
+import ru.cs.vsu.pixeldrawers.PixelDrawer;
+import ru.cs.vsu.points.RealPoint;
+import ru.cs.vsu.points.ScreenPoint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -164,7 +164,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     public void mouseWheelMoved(MouseWheelEvent e) {
         int clicks = e.getWheelRotation();
         double scale = 1;
-        double coef = clicks > 0 ?  0.9 : 1.1;
+        double coef = clicks <= 0 ?  0.9 : 1.1;
         for (int i = 0; i < Math.abs(clicks); i++) {
             scale *= coef;
         }

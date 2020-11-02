@@ -1,7 +1,7 @@
-package rybas;
+package ru.cs.vsu;
 
-import rybas.points.RealPoint;
-import rybas.points.ScreenPoint;
+import ru.cs.vsu.points.RealPoint;
+import ru.cs.vsu.points.ScreenPoint;
 
 public class ScreenConvertor {
     private double x, y, w, h;

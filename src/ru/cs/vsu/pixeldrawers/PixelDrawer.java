@@ -1,4 +1,4 @@
-package rybas.pixeldrawers;
+package ru.cs.vsu.pixeldrawers;
 
 import java.awt.*;
 

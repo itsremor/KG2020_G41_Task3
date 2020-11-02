@@ -1,6 +1,6 @@
-package rybas.models;
+package ru.cs.vsu.models;
 
-import rybas.points.RealPoint;
+import ru.cs.vsu.points.RealPoint;
 
 public class Line {
 

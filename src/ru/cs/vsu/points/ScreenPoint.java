@@ -1,4 +1,4 @@
-package rybas.points;
+package ru.cs.vsu.points;
 
 public class ScreenPoint {
     private final int x, y;

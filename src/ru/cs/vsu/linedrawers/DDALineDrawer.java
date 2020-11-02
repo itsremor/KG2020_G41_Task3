@@ -1,7 +1,7 @@
-package rybas.linedrawers;
+package ru.cs.vsu.linedrawers;
 
-import rybas.pixeldrawers.PixelDrawer;
-import rybas.points.ScreenPoint;
+import ru.cs.vsu.pixeldrawers.PixelDrawer;
+import ru.cs.vsu.points.ScreenPoint;
 
 import java.awt.*;
 

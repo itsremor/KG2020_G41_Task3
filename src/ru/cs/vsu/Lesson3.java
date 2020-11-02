@@ -1,4 +1,4 @@
-package rybas;
+package ru.cs.vsu;
 
 import javax.swing.*;
 import java.awt.*;
