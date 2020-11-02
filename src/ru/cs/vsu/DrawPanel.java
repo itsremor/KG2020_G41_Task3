@@ -19,8 +19,8 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     private ScreenConvertor sc = new ScreenConvertor(
             -2, 2, 4, 4, 800, 600
     );
-    private Line xAxis = new Line(-1, 0, 1, 0);
-    private Line yAxis = new Line(0, -1, 0, 1);
+    private Line xAxis = new Line(-2, 0, 2, 0);
+    private Line yAxis = new Line(0, -2, 0, 2);
 
     public DrawPanel() {
         this.addMouseMotionListener(this);
