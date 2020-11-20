@@ -3,6 +3,7 @@ package ru.cs.vsu;
 import ru.cs.vsu.linedrawers.DDALineDrawer;
 import ru.cs.vsu.linedrawers.LineDrawer;
 import ru.cs.vsu.models.Line;
+import ru.cs.vsu.models.data.Torch;
 import ru.cs.vsu.pixeldrawers.BufferedImagePixelDrawer;
 import ru.cs.vsu.pixeldrawers.PixelDrawer;
 import ru.cs.vsu.points.RealPoint;
@@ -16,9 +17,10 @@ import java.util.ArrayList;
 
 public class DrawPanel extends JPanel implements MouseMotionListener, MouseListener, MouseWheelListener {
     private ArrayList<Line> lines = new ArrayList<>();
-    private ScreenConvertor sc = new ScreenConvertor(
-            -2, 2, 4, 4, 800, 600
-    );
+    private ArrayList<Torch> torches = new ArrayList<>();
+
+    private ScreenConvertor sc = new ScreenConvertor(-2, 2, 4, 4, 800, 600);
+
     private Line xAxis = new Line(-2, 0, 2, 0);
     private Line yAxis = new Line(0, -2, 0, 2);
 
