@@ -8,11 +8,29 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileUtils {
-    public static ArrayList getFileData(String filename){
+    public static ArrayList getFileDataByString(String filename){
         ArrayList<Integer> data = new ArrayList<>();
 
         try {
             Scanner scn = new Scanner(new File(filename));
+            scn.useDelimiter("[^0-9]+");
+
+            while (scn.hasNext()) {
+                data.add(scn.nextInt());
+            }
+        }
+        catch (FileNotFoundException t){
+            return null;
+        }
+
+        return data;
+    }
+
+    public static ArrayList getFileData(File file){
+        ArrayList<Integer> data = new ArrayList<>();
+
+        try {
+            Scanner scn = new Scanner(file);
             scn.useDelimiter("[^0-9]+");
 
             while (scn.hasNext()) {

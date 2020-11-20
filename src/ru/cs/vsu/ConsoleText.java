@@ -31,10 +31,10 @@ public class ConsoleText {
         }
 */
 
-        ArrayList<Integer> list = FileUtils.getFileData("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt");
+        //ArrayList<Integer> list = FileUtils.getFileData("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt");
 
-        ArrayList<Torch> torches = Torch.getTorchesByData(list, 17);
+        //ArrayList<Torch> torches = Torch.getTorchesByData(list, 17);
 
-        System.out.println(torches.size());
+        //System.out.println(torches.size());
     }
 }
