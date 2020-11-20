@@ -50,4 +50,24 @@ public class Torch {
 
         return torches;
     }
+
+    public boolean isStonks() {
+        return stonks;
+    }
+
+    public RealPoint getStart() {
+        return start;
+    }
+
+    public RealPoint getEnd() {
+        return end;
+    }
+
+    public int getMinValue() {
+        return minValue;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
 }

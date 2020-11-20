@@ -21,8 +21,12 @@ import java.util.ArrayList;
 
 public class DrawPanel extends JPanel implements MouseMotionListener, MouseListener, MouseWheelListener {
     private ArrayList<Line> lines = new ArrayList<>();
-    private ArrayList<Torch> torches = new ArrayList<>();
+    private ArrayList<Torch> torches =
+            Torch.getTorchesByData(FileUtils.getFileData("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt"),
+                    60);
     private ArrayList<MyRectangle> rectangles = new ArrayList<>();
+
+
 
     private ScreenConvertor sc = new ScreenConvertor(-2, 2, 4, 4, 800, 600);
 
@@ -53,7 +57,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
             drawLine(ld, currentLine);
         }
 
-        if (rect != null){
+        if (rect != null) {
             drawRect(rd, rect);
         }
         bi_g.dispose();
@@ -64,8 +68,43 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         ld.drawLine(sc.r2s(l.getP1()), sc.r2s(l.getP2()));
     }
 
-    private void drawRect(RectangleDrawer rd, MyRectangle rect){
+    private void drawRect(RectangleDrawer rd, MyRectangle rect) {
         rd.drawRectangle(sc.r2s(rect.getP1()), sc.r2s(rect.getP2()));
+    }
+
+    public void drawChart(RectangleDrawer rd, LineDrawer ld, ArrayList<Torch> torches){
+        boolean stonks;
+        for (int i = 0; i < torches.size(); i++) {
+            stonks = torches.get(i).isStonks();
+            if(stonks) rd.setColor(Color.GREEN);
+            else rd.setColor(Color.RED);
+
+            rd.drawRectangle(sc.r2s(torches.get(i).getStart()),
+                    sc.r2s(torches.get(i).getEnd()));
+
+            if(stonks) {
+                ld.drawLine(sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                                torches.get(i).getEnd().getY())),
+                        sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                                torches.get(i).getMaxValue())));
+
+                ld.drawLine(sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                                torches.get(i).getStart().getY())),
+                        sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                                torches.get(i).getMinValue())));
+            }
+            else{
+                ld.drawLine(sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                                torches.get(i).getEnd().getY())),
+                        sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                                torches.get(i).getMinValue())));
+
+                ld.drawLine(sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                                torches.get(i).getStart().getY())),
+                        sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                                torches.get(i).getMaxValue())));
+            }
+        }
     }
 
     private void drawAll(LineDrawer ld) {
@@ -128,7 +167,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         ScreenPoint current = new ScreenPoint(e.getX(), e.getY());
         moveScreen(e, current);
 
-        if(rect != null){
+        if (rect != null) {
             rect.setP2(sc.s2r(current));
         }
 
@@ -193,6 +232,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
             lines.add(currentLine);
             currentLine = null;
         }
+
         repaint();
     }
 
@@ -209,7 +249,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     public void mouseWheelMoved(MouseWheelEvent e) {
         int clicks = e.getWheelRotation();
         double scale = 1;
-        double coef = clicks <= 0 ?  0.9 : 1.1;
+        double coef = clicks <= 0 ? 0.9 : 1.1;
         for (int i = 0; i < Math.abs(clicks); i++) {
             scale *= coef;
         }

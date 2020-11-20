@@ -9,6 +9,7 @@ public class DDARectangleDrawer implements RectangleDrawer{
     private PixelDrawer pd;
     private Color color = Color.BLACK;
 
+    @Override
     public void setColor(Color color){
         this.color = color;
     }
