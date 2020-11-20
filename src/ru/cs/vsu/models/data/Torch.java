@@ -33,6 +33,7 @@ public class Torch {
         boolean stonksType;
 
         for (int i = period; i < data.size() - period; i += period) {
+
             model.getValues(data, i, period);
             //тут возможен косяк с размером периодов, надо будет поиграться с добавлением единички
             //и в цикле мб i < data.size() - period Тоже с единичкой поиграть

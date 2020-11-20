@@ -62,6 +62,7 @@ public class UserInterface extends JFrame {
                 drawPanel1.setTorches(Torch.getTorchesByData
                         (FileUtils.getFileData(choosenFile), period));
 
+
             }
         });
     }

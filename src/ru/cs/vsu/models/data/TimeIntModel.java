@@ -33,6 +33,7 @@ public class TimeIntModel {
     }
 
     public void clear(){
-        
+        maxValue = 0;
+        minValue = 0;
     }
 }

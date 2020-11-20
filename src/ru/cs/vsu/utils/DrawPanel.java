@@ -21,7 +21,9 @@ import java.util.ArrayList;
 
 public class DrawPanel extends JPanel implements MouseMotionListener, MouseListener, MouseWheelListener {
     private ArrayList<Line> lines = new ArrayList<>();
-    private ArrayList<Torch> torches;
+    private ArrayList<Torch> torches =
+            Torch.getTorchesByData(FileUtils.getFileDataByString("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt"),
+                    3600);
     private ArrayList<MyRectangle> rectangles = new ArrayList<>();
 
     public void setTorches(ArrayList<Torch> torches){
@@ -148,7 +150,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
 //            p1.addPoint(w + scale*x, h - scale*((x*x*x)/100) - x + 10);
 //        }
 //
-        //drawChart(rd, ld, torches);
+        drawChart(rd, ld, torches);
 
         drawAxes(ld);
     }
@@ -186,11 +188,10 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     public void mouseDragged(MouseEvent e) {
         ScreenPoint current = new ScreenPoint(e.getX(), e.getY());
         moveScreen(e, current);
-        /*
+
         if (rect != null) {
             rect.setP2(sc.s2r(current));
         }
-        */
 
         /*
         if (currentLine != null) {
@@ -234,12 +235,10 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                     sc.s2r(new ScreenPoint(e.getX(), e.getY())),
                     sc.s2r(new ScreenPoint(e.getX(), e.getY()))
             ); */
-            /*
+
             rect = new MyRectangle(
                     sc.s2r(new ScreenPoint(e.getX(), e.getY())),
                     sc.s2r(new ScreenPoint(e.getX(), e.getY())));
-                    */
-
         }
         repaint();
     }
