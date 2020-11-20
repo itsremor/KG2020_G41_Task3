@@ -1,13 +1,16 @@
-package ru.cs.vsu;
+package ru.cs.vsu.utils;
 
+import ru.cs.vsu.ScreenConvertor;
 import ru.cs.vsu.linedrawers.DDALineDrawer;
 import ru.cs.vsu.linedrawers.LineDrawer;
 import ru.cs.vsu.models.Line;
+import ru.cs.vsu.models.MyRectangle;
 import ru.cs.vsu.models.data.Torch;
 import ru.cs.vsu.pixeldrawers.BufferedImagePixelDrawer;
 import ru.cs.vsu.pixeldrawers.PixelDrawer;
 import ru.cs.vsu.points.RealPoint;
 import ru.cs.vsu.points.ScreenPoint;
+import ru.cs.vsu.rectangledrawers.RectangleDrawer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,12 +48,19 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         if (currentLine != null) {
             drawLine(ld, currentLine);
         }
+        if (rect != null){
+
+        }
         bi_g.dispose();
         g.drawImage(bi, 0, 0, null);
     }
 
     private void drawLine(LineDrawer ld, Line l) {
         ld.drawLine(sc.r2s(l.getP1()), sc.r2s(l.getP2()));
+    }
+
+    private void drawRect(RectangleDrawer rd, MyRectangle rect){
+        rd.drawRectangle(sc.r2s(rect.getP1()), sc.r2s(rect.getP2()));
     }
 
     private void drawAll(LineDrawer ld) {
@@ -101,9 +111,16 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     public void mouseDragged(MouseEvent e) {
         ScreenPoint current = new ScreenPoint(e.getX(), e.getY());
         moveScreen(e, current);
+
+        if(rect != null){
+            rect.setP2(sc.s2r(current));
+        }
+        /*
         if (currentLine != null) {
             currentLine.setP2(sc.s2r(current));
         }
+        */
+
         repaint();
     }
 
@@ -129,15 +146,18 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     }
 
     private Line currentLine = null;
+    private MyRectangle rect = null;
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {
             prevDrag = new ScreenPoint(e.getX(), e.getY());
         } else if (e.getButton() == MouseEvent.BUTTON1) {
-            currentLine = new Line(
+            /* currentLine = new Line(
                     sc.s2r(new ScreenPoint(e.getX(), e.getY())),
                     sc.s2r(new ScreenPoint(e.getX(), e.getY()))
-            );
+            ); */
+
+            rect = new MyRectangle(sc.s2r(new ScreenPoint(e.getX(), e.getY())), sc.s2r(new ScreenPoint(e.getX(), e.getY())));
         }
         repaint();
     }

@@ -1,5 +1,7 @@
 package ru.cs.vsu;
 
+import ru.cs.vsu.utils.DrawPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
