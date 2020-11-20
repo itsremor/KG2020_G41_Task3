@@ -19,6 +19,17 @@ public class DDARectangleDrawer implements RectangleDrawer{
 
     @Override
     public void drawRectangle(ScreenPoint p1, ScreenPoint p2) {
+        int x0 = Math.min(p1.getX(), p2.getX());
+        int x1 = Math.max(p1.getX(), p2.getX());
+        int y0 = Math.min(p1.getY(), p2.getY());
+        int y1 = Math.max(p1.getY(), p2.getY());
+
+
+        for (int i = y0; i <= y1; i++) {
+            for (int j = x0; j < x1; j++) {
+                pd.setPixel(j, i, color);
+            }
+        }
 
     }
 }
