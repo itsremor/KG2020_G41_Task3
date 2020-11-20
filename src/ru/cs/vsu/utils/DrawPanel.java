@@ -33,6 +33,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     private Line xAxis = new Line(-2, 0, 2, 0);
     private Line yAxis = new Line(0, -2, 0, 2);
 
+
     public DrawPanel() {
         this.addMouseMotionListener(this);
         this.addMouseListener(this);
@@ -43,15 +44,17 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     public void paint(Graphics g) {
         BufferedImage bi = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D bi_g = bi.createGraphics();
+
         PixelDrawer pd = new BufferedImagePixelDrawer(bi);
         LineDrawer ld = new DDALineDrawer(pd);
         RectangleDrawer rd = new DDARectangleDrawer(pd);
+
         sc.setScreenH(getHeight());
         sc.setScreenW(getWidth());
         bi_g.fillRect(0, 0, getWidth(), getHeight());
         bi_g.setColor(Color.black);
         drawAxes(ld);
-        drawAll(ld);
+        drawAll(ld, rd);
 
         if (currentLine != null) {
             drawLine(ld, currentLine);
@@ -107,7 +110,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         }
     }
 
-    private void drawAll(LineDrawer ld) {
+    private void drawAll(LineDrawer ld, RectangleDrawer rd) {
 //        int w = this.getWidth()/2;
 //        int h = this.getHeight()/2;
 //
@@ -128,7 +131,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
 //            p1.addPoint(w + scale*x, h - scale*((x*x*x)/100) - x + 10);
 //        }
 //
-
+        drawChart(rd, ld, torches);
 
         drawAxes(ld);
     }
