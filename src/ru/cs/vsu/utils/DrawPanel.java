@@ -26,9 +26,11 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                     60);
     private ArrayList<MyRectangle> rectangles = new ArrayList<>();
 
+    public void setTorches(ArrayList<Torch> torches){
+        this.torches = torches;
+    }
 
-
-    private ScreenConvertor sc = new ScreenConvertor(-2, 2, 4, 4, 800, 600);
+    private ScreenConvertor sc = new ScreenConvertor(-10, 2000, 20, 4000, 800, 600);
 
     private Line xAxis = new Line(-2, 0, 2, 0);
     private Line yAxis = new Line(0, -2, 0, 2);
@@ -86,27 +88,44 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                     sc.r2s(torches.get(i).getEnd()));
 
             if(stonks) {
-                ld.drawLine(sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                ld.drawLine(sc.r2s(new RealPoint(
+                        (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
+                                - torches.get(i).getStart().getX()) / 2),
                                 torches.get(i).getEnd().getY())),
-                        sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                        sc.r2s(new RealPoint(
+                                (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
+                                        - torches.get(i).getStart().getX()) / 2),
                                 torches.get(i).getMaxValue())));
 
-                ld.drawLine(sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                ld.drawLine(sc.r2s(new RealPoint(
+                                (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
+                                        - torches.get(i).getStart().getX()) / 2),
                                 torches.get(i).getStart().getY())),
-                        sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                        sc.r2s(new RealPoint(
+                                (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
+                                        - torches.get(i).getStart().getX()) / 2),
                                 torches.get(i).getMinValue())));
             }
             else{
-                ld.drawLine(sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                ld.drawLine(sc.r2s(new RealPoint(
+                                (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
+                                        - torches.get(i).getStart().getX()) / 2),
                                 torches.get(i).getEnd().getY())),
-                        sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                        sc.r2s(new RealPoint(
+                                (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
+                                        - torches.get(i).getStart().getX()) / 2),
                                 torches.get(i).getMinValue())));
 
-                ld.drawLine(sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                ld.drawLine(sc.r2s(new RealPoint(
+                                (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
+                                        - torches.get(i).getStart().getX()) / 2),
                                 torches.get(i).getStart().getY())),
-                        sc.r2s(new RealPoint(((torches.get(i).getEnd().getX() - torches.get(i).getStart().getX()) / 2),
+                        sc.r2s(new RealPoint(
+                                (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
+                                        - torches.get(i).getStart().getX()) / 2),
                                 torches.get(i).getMaxValue())));
             }
+
         }
     }
 
