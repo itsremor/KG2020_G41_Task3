@@ -1,5 +1,6 @@
 package ru.cs.vsu;
 
+import ru.cs.vsu.models.data.Torch;
 import ru.cs.vsu.utils.FileUtils;
 
 import java.io.FileWriter;
@@ -9,6 +10,7 @@ import java.util.Random;
 
 public class ConsoleText {
     public static void main(String[] args) {
+        /*
         String filename = "C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\weekData.txt";
 
         ArrayList<Integer> io = FileUtils.getFileData(filename);
@@ -27,7 +29,10 @@ public class ConsoleText {
 
             System.out.println(ex.getMessage());
         }
+*/
 
+        ArrayList<Integer> list = FileUtils.getFileData("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt");
 
+        ArrayList<Torch> torches = Torch.getTorchesByData(list, 17);
     }
 }
