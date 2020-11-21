@@ -23,7 +23,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     private ArrayList<Line> lines = new ArrayList<>();
     private ArrayList<Torch> torches =
             Torch.getTorchesByData(FileUtils.getFileDataByString("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt"),
-                    3600);
+                    6);
     private ArrayList<MyRectangle> rectangles = new ArrayList<>();
 
     public void setTorches(ArrayList<Torch> torches){

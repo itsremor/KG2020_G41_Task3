@@ -41,8 +41,8 @@ public class Torch {
             else stonksType = true;
 
             torches.add(new Torch(torches.get(torchCounter-1).end, new RealPoint(torchCounter+1,
-                    data.get(i + period)), model.getMinValue(),
-                    model.getMaxValue(), stonksType));
+                    data.get(i + period)), Math.min(model.getMinValue(), data.get(i + period)),
+                    Math.max(model.getMaxValue(), data.get(i + period)), stonksType));
             torchCounter++;
             //torches.add(new Torch());
         }
