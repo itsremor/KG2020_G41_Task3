@@ -189,9 +189,9 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         ScreenPoint current = new ScreenPoint(e.getX(), e.getY());
         moveScreen(e, current);
 
-        if (rect != null) {
-            rect.setP2(sc.s2r(current));
-        }
+//        if (rect != null) {
+//            rect.setP2(sc.s2r(current));
+//        }
 
         /*
         if (currentLine != null) {
@@ -236,9 +236,9 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                     sc.s2r(new ScreenPoint(e.getX(), e.getY()))
             ); */
 
-            rect = new MyRectangle(
-                    sc.s2r(new ScreenPoint(e.getX(), e.getY())),
-                    sc.s2r(new ScreenPoint(e.getX(), e.getY())));
+//            rect = new MyRectangle(
+//                    sc.s2r(new ScreenPoint(e.getX(), e.getY())),
+//                    sc.s2r(new ScreenPoint(e.getX(), e.getY())));
         }
         repaint();
     }
@@ -248,11 +248,11 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         if (e.getButton() == MouseEvent.BUTTON3) {
             prevDrag = null;
         } else if (e.getButton() == MouseEvent.BUTTON1) {
-            rectangles.add(rect);
-            rect = null;
-
-            lines.add(currentLine);
-            currentLine = null;
+//            rectangles.add(rect);
+//            rect = null;
+//
+//            lines.add(currentLine);
+//            currentLine = null;
         }
 
         repaint();
