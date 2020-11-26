@@ -2,7 +2,7 @@ package ru.cs.vsu.models.data;
 
 import java.util.ArrayList;
 
-public class TimeIntModel {
+public class PeriodValueModel {
     private int maxValue;
     private int minValue;
 

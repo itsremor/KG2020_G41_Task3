@@ -7,6 +7,7 @@ import ru.cs.vsu.linedrawers.LineDrawer;
 import ru.cs.vsu.models.data.DataUtils;
 import ru.cs.vsu.models.data.Period;
 import ru.cs.vsu.models.data.Torch;
+import ru.cs.vsu.models.data.TorchUpgraded;
 import ru.cs.vsu.pixeldrawers.BufferedImagePixelDrawer;
 import ru.cs.vsu.utils.DrawPanel;
 import ru.cs.vsu.utils.FileUtils;
@@ -27,7 +28,7 @@ public class UserInterface extends JFrame {
     private JComboBox periods;
     private JButton fileLoader;
 
-    private File choosenFile;
+    private File choosenFile = new File("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt");
 
     public UserInterface() {
         $$$setupUI$$$();
@@ -59,7 +60,7 @@ public class UserInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 int period = DataUtils.getTime((Period) periods.getSelectedItem());
 
-                drawPanel1.setTorches(Torch.getTorchesByData
+                drawPanel1.setTorchesUpgraded(TorchUpgraded.getTorchesByData
                         (FileUtils.getFileData(choosenFile), period));
 
 
@@ -82,10 +83,10 @@ public class UserInterface extends JFrame {
     private void $$$setupUI$$$() {
         createUIComponents();
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(5, 3, new Insets(0, 0, 0, 0), -1, -1));
-        secondPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(secondPanel, new GridConstraints(0, 0, 3, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(500, 500), null, new Dimension(500, 500), 0, false));
-        secondPanel.add(drawPanel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(500, 500), null, new Dimension(500, 500), 0, false));
+        mainPanel.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
+        secondPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1, true, true));
+        mainPanel.add(secondPanel, new GridConstraints(0, 0, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(500, 500), new Dimension(2000, 2000), new Dimension(1080, 1080), 0, false));
+        secondPanel.add(drawPanel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(500, 500), new Dimension(2000, 2000), new Dimension(1080, 1080), 0, false));
         drawIt = new JButton();
         drawIt.setBackground(new Color(-3655424));
         Font drawItFont = this.$$$getFont$$$("Molot", -1, 48, drawIt.getFont());
@@ -93,24 +94,12 @@ public class UserInterface extends JFrame {
         drawIt.setForeground(new Color(-1));
         drawIt.setHideActionText(false);
         drawIt.setText("ПОГНАЛИ!");
-        mainPanel.add(drawIt, new GridConstraints(4, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(drawIt, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         periods = new JComboBox();
-        mainPanel.add(periods, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(periods, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         fileLoader = new JButton();
         fileLoader.setText("Загрузить из файла");
-        mainPanel.add(fileLoader, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label1 = new JLabel();
-        label1.setForeground(new Color(-4518654));
-        label1.setText("СНАЧАЛА ВЫБЕРИ ПЕРИОД!");
-        mainPanel.add(label1, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label2 = new JLabel();
-        label2.setForeground(new Color(-4518654));
-        label2.setText("СНАЧАЛА ВЫБЕРИ ПЕРИОД!");
-        mainPanel.add(label2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label3 = new JLabel();
-        label3.setForeground(new Color(-4518654));
-        label3.setText("СНАЧАЛА ВЫБЕРИ ПЕРИОД!");
-        mainPanel.add(label3, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(fileLoader, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

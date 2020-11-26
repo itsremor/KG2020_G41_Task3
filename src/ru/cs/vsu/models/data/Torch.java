@@ -13,6 +13,13 @@ public class Torch {
 
     private boolean stonks;
 
+    //перевод всех этих дискретных данных в реальные (т.е.  отсавить только
+    // min/max/start/end ТОЛЬКО ПО ИГРИКУ
+    //по иксу значение бара хранится по порядку бара
+    //т.к. бар привязывается к порядковому номеру дня (а не от его начала до конца)
+    //!ф-ция принимает свечу, (рил данные) и возвращает рил поинты
+    //для бара (2 точки) и для двух пиков (по 2 точки)
+
     public Torch(RealPoint start, RealPoint end, int minValue, int maxValue, boolean stonks) {
         this.start = start;
         this.end = end;
@@ -29,14 +36,14 @@ public class Torch {
         torches.add(new Torch(new RealPoint(0, 0), new RealPoint(1, data.get(period - 1)), 0, data.get(period - 1), true));
         torchCounter++;
 
-        TimeIntModel model = new TimeIntModel();
+        PeriodValueModel model = new PeriodValueModel();
         boolean stonksType;
 
         for (int i = period; i < data.size() - period; i += period) {
 
+            //в свечках убрать координату, вместо этого использовать два double значения - start end
+            //для min и max аналогично, использовать даблы
             model.getValues(data, i, period);
-            //тут возможен косяк с размером периодов, надо будет поиграться с добавлением единички
-            //и в цикле мб i < data.size() - period Тоже с единичкой поиграть
             if(torches.get(torchCounter - 1).end.getY() > data.get(i + period)) stonksType = false;
             else stonksType = true;
 
@@ -44,7 +51,6 @@ public class Torch {
                     data.get(i + period)), Math.min(model.getMinValue(), data.get(i + period)),
                     Math.max(model.getMaxValue(), data.get(i + period)), stonksType));
             torchCounter++;
-            //torches.add(new Torch());
         }
 
         model.getValues(data, period * torchCounter, data.size() - period * torchCounter);

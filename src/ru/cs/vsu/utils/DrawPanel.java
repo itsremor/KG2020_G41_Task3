@@ -6,6 +6,7 @@ import ru.cs.vsu.linedrawers.LineDrawer;
 import ru.cs.vsu.models.Line;
 import ru.cs.vsu.models.MyRectangle;
 import ru.cs.vsu.models.data.Torch;
+import ru.cs.vsu.models.data.TorchUpgraded;
 import ru.cs.vsu.pixeldrawers.BufferedImagePixelDrawer;
 import ru.cs.vsu.pixeldrawers.PixelDrawer;
 import ru.cs.vsu.points.RealPoint;
@@ -24,10 +25,16 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     private ArrayList<Torch> torches =
             Torch.getTorchesByData(FileUtils.getFileDataByString("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt"),
                     6);
-    private ArrayList<MyRectangle> rectangles = new ArrayList<>();
+
+    private ArrayList<TorchUpgraded> torchesUpgraded = TorchUpgraded.getTorchesByData(
+            FileUtils.getFileDataByString("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt"),
+            6);
 
     public void setTorches(ArrayList<Torch> torches){
         this.torches = torches;
+    }
+    public void setTorchesUpgraded(ArrayList<TorchUpgraded> torchesUpgraded) {
+        this.torchesUpgraded = torchesUpgraded;
     }
 
     private ScreenConvertor sc = new ScreenConvertor(-10, 2000, 20, 4000, 800, 600);
@@ -129,29 +136,79 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         }
     }
 
-    private void drawAll(LineDrawer ld, RectangleDrawer rd) {
-//        int w = this.getWidth()/2;
-//        int h = this.getHeight()/2;
-//
-//        Graphics2D g1 = (Graphics2D) g;
-//        g1.setStroke(new BasicStroke(2));
-//        g1.setColor(Color.black);
-//        g1.drawLine(0,h,w*2,h);
-//        g1.drawLine(w,0,w,h*2);
-//        g1.drawString("0", w - 7, h + 13);
-//
-//        int scale = 10;
-//        for (int x = 0; x <= 4; x++) {
-//            p.addPoint(w+scale*x, h - scale*((x*x*x) + x - 3));
-//        }
-////...lines skipped
-//        Polygon p1 = new Polygon();
-//        for (int x = -10; x <= 10; x++) {
-//            p1.addPoint(w + scale*x, h - scale*((x*x*x)/100) - x + 10);
-//        }
-//
-        drawChart(rd, ld, torches);
+    public void drawChartUpgraded(RectangleDrawer rd, LineDrawer ld, ArrayList<TorchUpgraded> torches){
+        boolean stonks;
 
+        double lineX;
+        double lineY1;
+        double lineY2;
+
+        ScreenPoint first;
+        ScreenPoint second;
+
+        for (int i = 0; i < torches.size(); i++) {
+            stonks = torches.get(i).isStonks();
+            if(stonks) rd.setColor(Color.GREEN);
+            else rd.setColor(Color.RED);
+
+            rd.drawRectangle(sc.r2s(new RealPoint(i, torches.get(i).getStart())),
+                    sc.r2s(new RealPoint(i + 1, torches.get(i).getEnd())));
+
+            if(stonks) {
+                lineX = i + 0.5;
+
+                //отрисовка верхней "тютельки"
+                if(torches.get(i).getEnd() < torches.get(i).getMaxValue()) {
+                    lineY1 = torches.get(i).getEnd();
+                    lineY2 = torches.get(i).getMaxValue();
+
+                    first = sc.r2s(new RealPoint(lineX, lineY1));
+                    second = sc.r2s(new RealPoint(lineX, lineY2));
+
+                    ld.drawLine(first, second);
+                }
+
+                //отрисовка нижней "тютельки"
+                if(torches.get(i).getStart() > torches.get(i).getMinValue()) {
+                    lineY1 = torches.get(i).getStart();
+                    lineY2 = torches.get(i).getMinValue();
+
+                    first = sc.r2s(new RealPoint(lineX, lineY1));
+                    second = sc.r2s(new RealPoint(lineX, lineY2));
+
+                    ld.drawLine(first, second);
+                }
+
+            }
+            else {
+                lineX = i + 0.5;
+
+                if(torches.get(i).getStart() < torches.get(i).getMaxValue()){
+                lineY1 = torches.get(i).getStart();
+                lineY2 = torches.get(i).getMaxValue();
+
+                first = sc.r2s(new RealPoint(lineX, lineY1));
+                second = sc.r2s(new RealPoint(lineX, lineY2));
+
+                ld.drawLine(first, second);
+                }
+
+                if(torches.get(i).getEnd() > torches.get(i).getMinValue()) {
+                    lineY1 = torches.get(i).getEnd();
+                    lineY2 = torches.get(i).getMinValue();
+
+                    first = sc.r2s(new RealPoint(lineX, lineY2));
+                    second = sc.r2s(new RealPoint(lineX, lineY1));
+
+                    ld.drawLine(first, second);
+                }
+            }
+        }
+    }
+
+    private void drawAll(LineDrawer ld, RectangleDrawer rd) {
+
+        drawChartUpgraded(rd, ld, torchesUpgraded);
         drawAxes(ld);
     }
 
