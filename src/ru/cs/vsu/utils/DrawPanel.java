@@ -67,6 +67,9 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         bi_g.setColor(Color.black);
 
         drawAll(ld, rd);
+        drawAxes(ld, bi_g);
+        drawCursoreData(ld, currentX, currentY, bi_g);
+
         bi_g.dispose();
         g.drawImage(bi, 0, 0, null);
     }
@@ -75,19 +78,26 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         ld.drawLine(sc.r2s(l.getP1()), sc.r2s(l.getP2()), color);
     }
 
-    private void drawCursoreData(LineDrawer ld, int x, int y){
+    private void drawCursoreData(LineDrawer ld, int x, int y, Graphics2D bi_g){
         Color grey = new Color(190,190,190);
-        ld.drawLine(new ScreenPoint(50, y), new ScreenPoint(getWidth(), y), grey);
+        ld.drawLine(new ScreenPoint(70, y), new ScreenPoint(getWidth(), y), grey);
         ld.drawLine(new ScreenPoint(x, 0), new ScreenPoint(x, getHeight() - 16), grey);
 
-        ld.drawLine(new ScreenPoint(x - 25, getHeight() - 16), new ScreenPoint(x + 25, getHeight() - 16), Color.BLACK);
-        ld.drawLine(new ScreenPoint(x - 25, getHeight() - 16), new ScreenPoint(x - 25, getHeight()), Color.BLACK);
-        ld.drawLine(new ScreenPoint(x + 25, getHeight() - 16), new ScreenPoint(x + 25, getHeight()), Color.BLACK);
+        ld.drawLine(new ScreenPoint(x - 35, getHeight() - 16), new ScreenPoint(x + 35, getHeight() - 16), Color.BLACK);
+        ld.drawLine(new ScreenPoint(x - 35, getHeight() - 1), new ScreenPoint(x + 35, getHeight() - 1), Color.BLACK);
+        ld.drawLine(new ScreenPoint(x - 35, getHeight() - 16), new ScreenPoint(x - 35, getHeight()), Color.BLACK);
+        ld.drawLine(new ScreenPoint(x + 35, getHeight() - 16), new ScreenPoint(x + 35, getHeight()), Color.BLACK);
 
-        ld.drawLine(new ScreenPoint(50, y - 8), new ScreenPoint(50, y + 8), Color.BLACK);
-        ld.drawLine(new ScreenPoint(0, y - 8), new ScreenPoint(50, y - 8), Color.BLACK);
-        ld.drawLine(new ScreenPoint(0, y + 8), new ScreenPoint(50, y + 8), Color.BLACK);
+        ld.drawLine(new ScreenPoint(70, y - 8), new ScreenPoint(70, y + 8), Color.BLACK);
+        ld.drawLine(new ScreenPoint(0, y - 8), new ScreenPoint(0, y + 8), Color.BLACK);
+        ld.drawLine(new ScreenPoint(0, y - 8), new ScreenPoint(70, y - 8), Color.BLACK);
+        ld.drawLine(new ScreenPoint(0, y + 8), new ScreenPoint(70, y + 8), Color.BLACK);
 
+        String stringX = String.format("%.3f", sc.s2r(new ScreenPoint(x, y)).getX());
+        String stringY = String.format("%.3f", sc.s2r(new ScreenPoint(x, y)).getY());
+
+        bi_g.drawString(stringX, x - 30, getHeight() - 4);
+        bi_g.drawString(stringY, 5, y + 4);
 
     }
 
@@ -219,13 +229,10 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     }
 
     private void drawAll(LineDrawer ld, RectangleDrawer rd) {
-
         drawChartUpgraded(rd, ld, torchesUpgraded);
-        drawAxes(ld);
-        drawCursoreData(ld, currentX, currentY);
     }
 
-    private void drawAxes(LineDrawer ld) {
+    private void drawAxes(LineDrawer ld, Graphics2D bi_g) {
         RealPoint xp1 = new RealPoint(sc.getX(), 0);
         RealPoint xp2 = new RealPoint(sc.getX() + sc.getW(), 0);
         RealPoint yp1 = new RealPoint(0, sc.getY());
@@ -234,6 +241,8 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         Line yAxis = new Line(yp1, yp2);
         drawLine(ld, xAxis, Color.BLACK);
         drawLine(ld, yAxis, Color.BLACK);
+
+
     }
 
     @Override
