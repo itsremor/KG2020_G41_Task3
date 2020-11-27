@@ -44,7 +44,7 @@ public class FileUtils {
         return data;
     }
 
-    public static void loadStringToFile(String filename, ArrayList data){
+    public static void loadListTiStringToFile(String filename, ArrayList data){
         try(FileWriter writer = new FileWriter(filename, false))
         {
             for (int i = 0; i < data.size(); i++) {
@@ -54,4 +54,14 @@ public class FileUtils {
         }
         catch(IOException ex){}
     }
+
+    public static void loadStringToFile(String filename, String string){
+        try(FileWriter writer = new FileWriter(filename, false))
+        {
+            writer.write(string);
+            writer.flush();
+        }
+        catch(IOException ex){}
+    }
+
 }
