@@ -68,7 +68,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
 
         drawAll(ld, rd);
         drawAxes(ld, bi_g);
-        drawCursoreData(ld, currentX, currentY, bi_g);
+        drawCursorData(ld, currentX, currentY, bi_g);
 
         bi_g.dispose();
         g.drawImage(bi, 0, 0, null);
@@ -78,7 +78,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         ld.drawLine(sc.r2s(l.getP1()), sc.r2s(l.getP2()), color);
     }
 
-    private void drawCursoreData(LineDrawer ld, int x, int y, Graphics2D bi_g){
+    private void drawCursorData(LineDrawer ld, int x, int y, Graphics2D bi_g){
         Color grey = new Color(190,190,190);
         ld.drawLine(new ScreenPoint(70, y), new ScreenPoint(getWidth(), y), grey);
         ld.drawLine(new ScreenPoint(x, 0), new ScreenPoint(x, getHeight() - 16), grey);
@@ -242,7 +242,36 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         drawLine(ld, xAxis, Color.BLACK);
         drawLine(ld, yAxis, Color.BLACK);
 
+        ScreenPoint p1;
+        ScreenPoint p2;
+        String value;
 
+        //реечки на оси X
+        for (int i = 0; i < 10; i++) {
+            p1 = new ScreenPoint(getWidth()/10 * i,
+                    sc.r2s(new RealPoint(0, sc.getY())).getY() + 2 + sc.r2s(xp1).getY());
+
+            p2 = new ScreenPoint(getWidth()/10 * i,
+                    sc.r2s(new RealPoint(0, sc.getY())).getY() - 2 + sc.r2s(xp1).getY());
+
+            value = String.format("%.2f", sc.s2r(p2).getX());
+            ld.drawLine(p1, p2, Color.BLACK);
+            bi_g.drawString(value, p2.getX() - 5, p2.getY() + 15);
+        }
+
+        //реечки на оси Y
+        for (int i = 0; i < 10; i++) {
+
+            p1 = new ScreenPoint(sc.r2s(new RealPoint(sc.getX(), 0)).getX() - 2 + sc.r2s(yp1).getX(),
+                    getHeight()/10 * i);
+
+            p2 = new ScreenPoint(sc.r2s(new RealPoint(sc.getX(), 0)).getX() + 2 + sc.r2s(yp1).getX(),
+                    getHeight()/10 * i);
+
+            value = String.format("%.2f", sc.s2r(p2).getY());
+            ld.drawLine(p1, p2, Color.BLACK);
+            bi_g.drawString(value, p2.getX() - 55, p2.getY());
+        }
     }
 
     @Override
@@ -289,23 +318,11 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         }
     }
 
-    private Line currentLine = null;
-    private MyRectangle rect = null;
-
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {
             prevDrag = new ScreenPoint(e.getX(), e.getY());
-        } else if (e.getButton() == MouseEvent.BUTTON1) {
-            /* currentLine = new Line(
-                    sc.s2r(new ScreenPoint(e.getX(), e.getY())),
-                    sc.s2r(new ScreenPoint(e.getX(), e.getY()))
-            ); */
-
-//            rect = new MyRectangle(
-//                    sc.s2r(new ScreenPoint(e.getX(), e.getY())),
-//                    sc.s2r(new ScreenPoint(e.getX(), e.getY())));
-        }
+        } else if (e.getButton() == MouseEvent.BUTTON1) {}
         repaint();
     }
 
@@ -313,13 +330,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {
             prevDrag = null;
-        } else if (e.getButton() == MouseEvent.BUTTON1) {
-//            rectangles.add(rect);
-//            rect = null;
-//
-//            lines.add(currentLine);
-//            currentLine = null;
-        }
+        } else if (e.getButton() == MouseEvent.BUTTON1) {}
 
         repaint();
     }
@@ -338,9 +349,11 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         int clicks = e.getWheelRotation();
         double scale = 1;
         double coef = clicks <= 0 ? 0.9 : 1.1;
+
         for (int i = 0; i < Math.abs(clicks); i++) {
             scale *= coef;
         }
+
         sc.setW(sc.getW() * scale);
         sc.setH(sc.getH() * scale);
 
