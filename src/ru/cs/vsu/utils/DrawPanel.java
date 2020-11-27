@@ -21,6 +21,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class DrawPanel extends JPanel implements MouseMotionListener, MouseListener, MouseWheelListener {
+    private int currentX;
+    private int currentY;
+
     private ArrayList<Line> lines = new ArrayList<>();
     private ArrayList<Torch> torches =
             Torch.getTorchesByData(FileUtils.getFileDataByString("C:\\Users\\akamo\\IdeaProjects\\LEXUS\\KG2020_G41_Task3\\src\\ru\\cs\\vsu\\data\\dayData.txt"),
@@ -62,22 +65,30 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
         sc.setScreenW(getWidth());
         bi_g.fillRect(0, 0, getWidth(), getHeight());
         bi_g.setColor(Color.black);
-        drawAxes(ld);
+
         drawAll(ld, rd);
-
-        if (currentLine != null) {
-            drawLine(ld, currentLine);
-        }
-
-        if (rect != null) {
-            drawRect(rd, rect);
-        }
         bi_g.dispose();
         g.drawImage(bi, 0, 0, null);
     }
 
-    private void drawLine(LineDrawer ld, Line l) {
-        ld.drawLine(sc.r2s(l.getP1()), sc.r2s(l.getP2()));
+    private void drawLine(LineDrawer ld, Line l, Color color) {
+        ld.drawLine(sc.r2s(l.getP1()), sc.r2s(l.getP2()), color);
+    }
+
+    private void drawCursoreData(LineDrawer ld, int x, int y){
+        Color grey = new Color(190,190,190);
+        ld.drawLine(new ScreenPoint(50, y), new ScreenPoint(getWidth(), y), grey);
+        ld.drawLine(new ScreenPoint(x, 0), new ScreenPoint(x, getHeight() - 16), grey);
+
+        ld.drawLine(new ScreenPoint(x - 25, getHeight() - 16), new ScreenPoint(x + 25, getHeight() - 16), Color.BLACK);
+        ld.drawLine(new ScreenPoint(x - 25, getHeight() - 16), new ScreenPoint(x - 25, getHeight()), Color.BLACK);
+        ld.drawLine(new ScreenPoint(x + 25, getHeight() - 16), new ScreenPoint(x + 25, getHeight()), Color.BLACK);
+
+        ld.drawLine(new ScreenPoint(50, y - 8), new ScreenPoint(50, y + 8), Color.BLACK);
+        ld.drawLine(new ScreenPoint(0, y - 8), new ScreenPoint(50, y - 8), Color.BLACK);
+        ld.drawLine(new ScreenPoint(0, y + 8), new ScreenPoint(50, y + 8), Color.BLACK);
+
+
     }
 
     private void drawRect(RectangleDrawer rd, MyRectangle rect) {
@@ -102,7 +113,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                         sc.r2s(new RealPoint(
                                 (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
                                         - torches.get(i).getStart().getX()) / 2),
-                                torches.get(i).getMaxValue())));
+                                torches.get(i).getMaxValue())), Color.BLACK);
 
                 ld.drawLine(sc.r2s(new RealPoint(
                                 (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
@@ -111,7 +122,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                         sc.r2s(new RealPoint(
                                 (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
                                         - torches.get(i).getStart().getX()) / 2),
-                                torches.get(i).getMinValue())));
+                                torches.get(i).getMinValue())), Color.BLACK);
             }
             else{
                 ld.drawLine(sc.r2s(new RealPoint(
@@ -121,7 +132,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                         sc.r2s(new RealPoint(
                                 (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
                                         - torches.get(i).getStart().getX()) / 2),
-                                torches.get(i).getMinValue())));
+                                torches.get(i).getMinValue())), Color.BLACK);
 
                 ld.drawLine(sc.r2s(new RealPoint(
                                 (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
@@ -130,7 +141,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                         sc.r2s(new RealPoint(
                                 (torches.get(i).getStart().getX() + (torches.get(i).getEnd().getX()
                                         - torches.get(i).getStart().getX()) / 2),
-                                torches.get(i).getMaxValue())));
+                                torches.get(i).getMaxValue())), Color.BLACK);
             }
 
         }
@@ -154,6 +165,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
             rd.drawRectangle(sc.r2s(new RealPoint(i, torches.get(i).getStart())),
                     sc.r2s(new RealPoint(i + 1, torches.get(i).getEnd())));
 
+
             if(stonks) {
                 lineX = i + 0.5;
 
@@ -165,7 +177,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                     first = sc.r2s(new RealPoint(lineX, lineY1));
                     second = sc.r2s(new RealPoint(lineX, lineY2));
 
-                    ld.drawLine(first, second);
+                    ld.drawLine(first, second, Color.BLACK);
                 }
 
                 //отрисовка нижней "тютельки"
@@ -176,7 +188,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                     first = sc.r2s(new RealPoint(lineX, lineY1));
                     second = sc.r2s(new RealPoint(lineX, lineY2));
 
-                    ld.drawLine(first, second);
+                    ld.drawLine(first, second, Color.BLACK);
                 }
 
             }
@@ -190,7 +202,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                 first = sc.r2s(new RealPoint(lineX, lineY1));
                 second = sc.r2s(new RealPoint(lineX, lineY2));
 
-                ld.drawLine(first, second);
+                ld.drawLine(first, second, Color.BLACK);
                 }
 
                 if(torches.get(i).getEnd() > torches.get(i).getMinValue()) {
@@ -200,7 +212,7 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
                     first = sc.r2s(new RealPoint(lineX, lineY2));
                     second = sc.r2s(new RealPoint(lineX, lineY1));
 
-                    ld.drawLine(first, second);
+                    ld.drawLine(first, second, Color.BLACK);
                 }
             }
         }
@@ -210,28 +222,26 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
 
         drawChartUpgraded(rd, ld, torchesUpgraded);
         drawAxes(ld);
+        drawCursoreData(ld, currentX, currentY);
     }
 
     private void drawAxes(LineDrawer ld) {
-//        ld.drawLine(sc.realToScreen(xAxis.getP1()), sc.realToScreen(xAxis.getP2()));
-//        ld.drawLine(sc.realToScreen(yAxis.getP1()), sc.realToScreen(yAxis.getP2()));
-//        for (Line l : lines) {
-//            ld.drawLine(sc.realToScreen(l.getP1()),
-//                    sc.realToScreen(l.getP2()));
-//        }
-
         RealPoint xp1 = new RealPoint(sc.getX(), 0);
         RealPoint xp2 = new RealPoint(sc.getX() + sc.getW(), 0);
         RealPoint yp1 = new RealPoint(0, sc.getY());
         RealPoint yp2 = new RealPoint(0, sc.getY() - sc.getH());
         Line xAxis = new Line(xp1, xp2);
         Line yAxis = new Line(yp1, yp2);
-        drawLine(ld, xAxis);
-        drawLine(ld, yAxis);
+        drawLine(ld, xAxis, Color.BLACK);
+        drawLine(ld, yAxis, Color.BLACK);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        currentX = e.getXOnScreen() - 8;
+        currentY = e.getYOnScreen() - 30;
+
+        repaint();
     }
 
     private ScreenPoint prevDrag;
@@ -245,16 +255,6 @@ public class DrawPanel extends JPanel implements MouseMotionListener, MouseListe
     public void mouseDragged(MouseEvent e) {
         ScreenPoint current = new ScreenPoint(e.getX(), e.getY());
         moveScreen(e, current);
-
-//        if (rect != null) {
-//            rect.setP2(sc.s2r(current));
-//        }
-
-        /*
-        if (currentLine != null) {
-            currentLine.setP2(sc.s2r(current));
-        }
-        */
 
         repaint();
     }
